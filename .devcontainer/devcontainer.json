@@ -1,0 +1,14 @@
+{
+  "name": "Kraken2-Python Dev Environment",
+  "dockerFile": "Dockerfile",
+  "context": ".",
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/bash"
+  },
+  "extensions": [
+    "ms-python.python",
+    "ms-toolsai.jupyter"
+  ],
+  "postCreateCommand": "pip install --upgrade pip",
+  "remoteUser": "devuser"
+}
