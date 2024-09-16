@@ -3,5 +3,5 @@
 This repository contains the 
 
 - Lecture slides
-- codeanywhere devfiles and dockerfile
+- codesandbox devfiles and dockerfile
 - Tutorial instructions
