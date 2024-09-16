@@ -1,38 +1,25 @@
-# Use an official base image with Python
-FROM python:3.10-slim
+# Use the official micromamba base image
+FROM continuumio/miniconda3
 
-# Set environment variables
-ENV LANG=C.UTF-8
-ENV LC_ALL=C.UTF-8
-
-# Install system dependencies
-RUN apt-get update && \
-    apt-get install -y \
-    wget \
-    build-essential \
-    libz-dev \
-    perl \
-    git \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install Kraken2
-WORKDIR /opt
-RUN wget https://github.com/DerrickWood/kraken2/archive/refs/tags/v2.1.2.tar.gz && \
-    tar -xvzf v2.1.2.tar.gz && \
-    cd kraken2-2.1.2 && \
-    ./install_kraken2.sh /usr/local/bin
-
-# Install Python dependencies
-RUN pip install --no-cache-dir \
-    matplotlib \
-    pandas \
-    biopython
-
-# Set the working directory to /workspace (CodeAnywhere default)
+# Set up a working directory
 WORKDIR /workspace
 
-# Add Kraken2 to PATH
-ENV PATH="/usr/local/bin/kraken2:$PATH"
+# Install fastp, kraken2, and biopython using conda
+RUN conda install -c bioconda make fastp kraken2 biopython krona -y
 
-# Default command
-CMD ["bash"]
+# Update PATH (conda automatically updates this, but just in case)
+ENV PATH="/opt/conda/bin:${PATH}"
+
+RUN /opt/conda/opt/krona/updateTaxonomy.sh
+
+# Create the directory /project/workspace/data
+RUN mkdir -p /data
+
+# Download a sample data file into /project/workspace/data using wget
+RUN wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR876/007/SRR8761407/SRR8761407_2.fastq.gz -O /data/SampleA_R2.fastq.gz
+RUN wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR876/007/SRR8761407/SRR8761407_1.fastq.gz -O /data/SampleA_R1.fastq.gz
+
+RUN mkdir -p /db/k2
+
+RUN wget https://genome-idx.s3.amazonaws.com/kraken/k2_viral_20240112.tar.gz -O /db/k2.tar.gz && tar xvf /db/k2.tar.gz -C /db/k2
+RUN rm /db/k2.tar.gz
