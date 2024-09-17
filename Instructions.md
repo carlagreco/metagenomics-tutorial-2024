@@ -54,9 +54,9 @@ kraken2 --threads 1 --db /db/k2 --output SampleA_output.txt --report SampleA_kra
 ```
 - This command runs:
 
-- Take a look at the report:
+- Take a look at the report (type q to exit viewer):
 ```
-less SampleA_karken.report
+less SampleA_kraken.report
 ```
 The report file contains a hierarchical output file in the followinf format:
 
