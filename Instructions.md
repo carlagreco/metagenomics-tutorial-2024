@@ -50,7 +50,7 @@ fastp -i /data/SampleA_R1.fastq.gz -I /data/SampleA_R2.fastq.gz -o SampleA_trim_
 - The command to run kraken2 is:
 
 ```
-kraken2 --threads 1 --db /db/k2 --output SampleA_output.txt --report SampleA_kraken.report --paired SampleA_trim_R2.fastq.gz SampleA_trim_R2.fastq.gz
+kraken2 --threads 1 --db /db/k2 --output SampleA_output.txt --report SampleA_kraken.report --paired SampleA_trim_R1.fastq.gz SampleA_trim_R2.fastq.gz
 ```
 - This command runs:
 
